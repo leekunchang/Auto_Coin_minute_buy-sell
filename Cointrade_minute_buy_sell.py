@@ -44,9 +44,7 @@ while True:
         ma5 = get_ma5("KRW-"+coin_code) # ma5 값 차트 불러오는 함수
         ma10 = get_ma10("KRW-"+coin_code) # ma10 값 차트 불러오는 함수
         ma20 = get_ma20("KRW-"+coin_code) # ma20 값 차트 불러오는 함수
-        # 매수조건 - 목표가 and 이평선 < 현재가격 < 타겟가격 * 1.01 < 익절값
-        # 실제 매수조건은 목표+이평선 도달 시 매수, 그리고 매수가보다 1% 높으면 안사짐. 조건에 합할 경우 수차례 사짐
-        if ma10 < ma5 and ma20 * 1.05 < ma5:
+        if ma10 < ma5 and ma20 * 1.05 < ma5: # 5분이평선이 10분이평선보다 크고 / 5분 이평선이 20분이평선의 5%이상일 경우(상승추세고려)
             krw = get_balance("KRW")
             if krw > 5000:
                 upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
