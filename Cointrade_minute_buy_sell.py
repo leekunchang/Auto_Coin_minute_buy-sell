@@ -5,22 +5,22 @@ import datetime
 access = "K1izlIYmgptIBMaMhfaZlWh8KlFnUXOxIXmS91pA"
 secret = "x4vnFWp8mViKuunhEZwkAaojIomtTNnzVx6xMIDi"
 
-coin_code = "JST" # 종목코드
+coin_code = "AXS" # 종목코드
 
 
 def get_ma5(ticker): # 분봉 22분 조회, 5분 이평선
     df = pyupbit.get_ohlcv(ticker, interval="minute1", count=22)
-    ma5 = df['close'].rolling(5).mean()
+    ma5 = df['close'].rolling(5).mean().iloc[-1]
     return ma5
 
 def get_ma10(ticker): # 분봉 22, 조회 10분 이평선
     df = pyupbit.get_ohlcv(ticker, interval="minute1", count=22)
-    ma10 = df['close'].rolling(10).mean()
+    ma10 = df['close'].rolling(10).mean().iloc[-1]
     return ma10
 
 def get_ma20(ticker): # 분봉 22, 조회 20분 이평선
     df = pyupbit.get_ohlcv(ticker, interval="minute1", count=22)
-    ma20 = df['close'].rolling(20).mean()
+    ma20 = df['close'].rolling(20).mean().iloc[-1]
     return ma20
 
 def get_balance(ticker):
@@ -44,7 +44,7 @@ while True:
         ma5 = get_ma5("KRW-"+coin_code) # ma5 값 차트 불러오는 함수
         ma10 = get_ma10("KRW-"+coin_code) # ma10 값 차트 불러오는 함수
         ma20 = get_ma20("KRW-"+coin_code) # ma20 값 차트 불러오는 함수
-        if ma10 < ma5 and ma20 * 1.05 < ma5: # 5분이평선이 10분이평선보다 크고 / 5분 이평선이 20분이평선의 5%이상일 경우(상승추세고려)
+        if ma10 < ma5 and ma20 * 1.01 < ma5: # 5분이평선이 10분이평선보다 크고 / 5분 이평선이 20분이평선의 5%이상일 경우(상승추세고려)
             krw = get_balance("KRW")
             if krw > 5000:
                 upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
