@@ -5,7 +5,7 @@ import datetime
 access = "K1izlIYmgptIBMaMhfaZlWh8KlFnUXOxIXmS91pA"
 secret = "x4vnFWp8mViKuunhEZwkAaojIomtTNnzVx6xMIDi"
 
-coin_code = "AXS" # 종목코드
+coin_code = "LSK" # 종목코드
 
 
 def get_ma5(ticker): # 분봉 22분 조회, 5분 이평선
