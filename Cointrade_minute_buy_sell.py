@@ -5,7 +5,7 @@ import datetime
 access = "K1izlIYmgptIBMaMhfaZlWh8KlFnUXOxIXmS91pA"
 secret = "x4vnFWp8mViKuunhEZwkAaojIomtTNnzVx6xMIDi"
 
-coin_code = "LSK" # 종목코드
+coin_code = "JST" # 종목코드
 
 
 def get_ma5(ticker): # 분봉 22분 조회, 5분 이평선
@@ -44,14 +44,17 @@ while True:
         ma5 = get_ma5("KRW-"+coin_code) # ma5 값 차트 불러오는 함수
         ma10 = get_ma10("KRW-"+coin_code) # ma10 값 차트 불러오는 함수
         ma20 = get_ma20("KRW-"+coin_code) # ma20 값 차트 불러오는 함수
-        if ma10 < ma5 and ma20 * 1.01 < ma5: # 5분이평선이 10분이평선보다 크고 / 5분 이평선이 20분이평선의 5%이상일 경우(상승추세고려)
+        if ma10 < ma5 and ma20 * 1.0003 < ma5: 
             krw = get_balance("KRW")
             if krw > 5000:
                 upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
+                time.sleep(60)
+                print("매수")
         else:
             coin_volume = get_balance(coin_code)
             if coin_volume > 0.00008:
                 upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
+                print("매도")
         time.sleep(1)
     except Exception as e:
         print(e)
