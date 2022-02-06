@@ -54,6 +54,7 @@ while True:
             coin_volume = get_balance(coin_code)
             if coin_volume > 0.00008:
                 upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
+                time.sleep(60)
                 print("매도")
         time.sleep(1)
     except Exception as e:
