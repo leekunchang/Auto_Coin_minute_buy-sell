@@ -10,17 +10,17 @@ coin_code = "JST" # 종목코드
 
 def get_ma5(ticker): # 분봉 22분 조회, 5분 이평선
     df = pyupbit.get_ohlcv(ticker, interval="minute1", count=22)
-    ma5 = df['close'].rolling(5).mean().iloc[-1]
+    ma5 = df['close'].rolling(5).mean().iloc[-2] # 전 분봉으로 조회(-2)
     return ma5
 
 def get_ma10(ticker): # 분봉 22, 조회 10분 이평선
     df = pyupbit.get_ohlcv(ticker, interval="minute1", count=22)
-    ma10 = df['close'].rolling(10).mean().iloc[-1]
+    ma10 = df['close'].rolling(10).mean().iloc[-2] # 전 분봉으로 조회(-2)
     return ma10
 
 def get_ma20(ticker): # 분봉 22, 조회 20분 이평선
     df = pyupbit.get_ohlcv(ticker, interval="minute1", count=22)
-    ma20 = df['close'].rolling(20).mean().iloc[-1]
+    ma20 = df['close'].rolling(20).mean().iloc[-2] #전 분봉으로 조회(-2)
     return ma20
 
 def get_balance(ticker):
