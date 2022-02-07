@@ -1,6 +1,8 @@
-K_code = 0.5 # K 상수값
-coin_code = "SOL"
-coin_volume = "sol"
+a = 120
+b = 100
+c = 130
 
-
-print("KRW-"+coin_code)
+if a > b and a > c:
+    print("매수")
+elif a > b and a < c:
+    print("매도")
