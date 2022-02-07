@@ -8,8 +8,6 @@ secret = "x4vnFWp8mViKuunhEZwkAaojIomtTNnzVx6xMIDi"
 coin_code = "AXS" # 종목코드
 
 
-# 20분 이평선삭제버전
-
 def get_ma5(ticker): # 분봉 12분 조회, 5분 이평선
     df = pyupbit.get_ohlcv(ticker, interval="minute1", count=12)
     ma5 = df['close'].rolling(5).mean().iloc[-2] # 전 분봉으로 조회(-2)
@@ -22,7 +20,7 @@ def get_ma10(ticker): # 분봉 12, 조회 10분 이평선
 
 def get_ma52(ticker): # 분봉 12분 조회, 5분 이평선
     df = pyupbit.get_ohlcv(ticker, interval="minute1", count=12)
-    ma5 = df['close'].rolling(5).mean().iloc[-3] # 전전 분봉으로 조회(-3)
+    ma52 = df['close'].rolling(5).mean().iloc[-3] # 전전 분봉으로 조회(-3)
     return ma52
 
 
