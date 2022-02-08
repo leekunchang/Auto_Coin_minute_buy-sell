@@ -6,7 +6,7 @@ access = "K1izlIYmgptIBMaMhfaZlWh8KlFnUXOxIXmS91pA"
 secret = "x4vnFWp8mViKuunhEZwkAaojIomtTNnzVx6xMIDi"
 
 coin_code = "SNT" # 종목코드
-#깃 에러 재 저장
+
 
 def get_ma5a(ticker): # 60분봉 12분 조회, 5분 이평선
     df = pyupbit.get_ohlcv(ticker, interval="minute60", count=12)
@@ -55,22 +55,24 @@ print("autotrade start")
 while True:
     try:
         ma5a = get_ma5a("KRW-"+coin_code) # ma5 값 차트 불러오는 함수
-        ma5b = get_ma5b("KRW-"+coin_code)
-        ma5c = get_ma5c("KRW-"+coin_code)
+        ma5b = get_ma5b("KRW-"+coin_code) # 1시간전 ma5 차트 불러오는 함수
+        ma5c = get_ma5c("KRW-"+coin_code) # 2시간전 ma5 차트 불러오는 함수
         ma10 = get_ma10("KRW-"+coin_code) # ma10 값 차트 불러오는 함수
         
         if ma5a > ma5b > ma5c and ma5a > ma10:
             krw = get_balance("KRW")
             if krw > 5000:
                 upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
-                time.sleep(1800)
                 print("매수")
+                time.sleep(1800) # 매수 후 30분간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
+                
         if ma5a < ma5b or ma5a < ma10:
             coin_volume = get_balance(coin_code)
             if coin_volume > 0.00008:
                 upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
-                time.sleep(1800)
                 print("매도")
+                time.sleep(1800) # 매수 후 30분간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
+                
         time.sleep(1)
     except Exception as e:
         print(e)
