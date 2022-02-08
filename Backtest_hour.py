@@ -22,6 +22,10 @@ df['ma10_1'] = df['close'].rolling(window=10).mean().shift(1)
 # 이평선 10분 2전봉
 df['ma10_2'] = df['close'].rolling(window=10).mean().shift(2)
 
+# df['ror'] = np.where((df['ma5'] > df['ma10']) & (df['ma5'] > df['bull']), # 이평선 이상일 경우 값 추출 추가 MA버전 삽입분
+#                       df['close'] / df['close'].shift(1) - fee,
+#                       1)
+
 # # ma5 > ma10 and ma5 > ma5_1
 # df['ma5 > ma10 and ma5 > ma5_1'] = np.where(df['ma5'] > df['ma10'] & df['ma5'] > df['ma5_1'], 1, 0)
 
