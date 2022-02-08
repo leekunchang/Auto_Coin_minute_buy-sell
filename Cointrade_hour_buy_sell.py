@@ -63,13 +63,13 @@ while True:
             krw = get_balance("KRW")
             if krw > 5000:
                 upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
-                time.sleep(60)
+                time.sleep(1800)
                 print("매수")
         if ma5a < ma5b or ma5a < ma10:
             coin_volume = get_balance(coin_code)
             if coin_volume > 0.00008:
                 upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
-                time.sleep(60)
+                time.sleep(1800)
                 print("매도")
         time.sleep(1)
     except Exception as e:
