@@ -1,8 +1,10 @@
-a = 120
-b = 100
-c = 130
+ma5a = 100
+ma5b = 90
+ma5c = 80
+ma10 = 110
 
-if a > b and a > c:
+
+if ma5a > ma5b > ma5c and ma5a > ma10:
     print("매수")
-elif a > b and a < c:
+if ma5a < ma5b or ma5a < ma10:
     print("매도")
