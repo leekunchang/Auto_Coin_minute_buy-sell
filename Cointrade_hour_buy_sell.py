@@ -6,7 +6,7 @@ access = "K1izlIYmgptIBMaMhfaZlWh8KlFnUXOxIXmS91pA"
 secret = "x4vnFWp8mViKuunhEZwkAaojIomtTNnzVx6xMIDi"
 
 coin_code = "SNT" # 종목코드
-
+#깃 에러 재 저장
 
 def get_ma5a(ticker): # 60분봉 12분 조회, 5분 이평선
     df = pyupbit.get_ohlcv(ticker, interval="minute60", count=12)
