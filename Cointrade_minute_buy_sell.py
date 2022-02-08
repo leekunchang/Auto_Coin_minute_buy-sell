@@ -1,3 +1,5 @@
+# 실적용하면 안됨 - 아직 개발중
+
 import time
 import pyupbit
 import datetime
