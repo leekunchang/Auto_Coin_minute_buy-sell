@@ -5,7 +5,7 @@ import datetime
 access = "K1izlIYmgptIBMaMhfaZlWh8KlFnUXOxIXmS91pA"
 secret = "x4vnFWp8mViKuunhEZwkAaojIomtTNnzVx6xMIDi"
 
-coin_code = "SAND" # 종목코드
+coin_code = "ETH" # 종목코드
 
 
 def get_ma5a(ticker): # 60분봉 12분 조회, 5분 이평선
@@ -59,7 +59,7 @@ while True:
         ma5c = get_ma5c("KRW-"+coin_code) # 2시간전 ma5 차트 불러오는 함수
         ma10 = get_ma10("KRW-"+coin_code) # ma10 값 차트 불러오는 함수
         
-        if ma5a > ma5b > ma5c and ma5a > ma10:
+        if ma5a > ma5b and ma5a > ma10:
             krw = get_balance("KRW")
             if krw > 5000:
                 upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
