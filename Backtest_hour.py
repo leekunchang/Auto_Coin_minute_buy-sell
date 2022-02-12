@@ -2,25 +2,38 @@ import pyupbit
 import numpy as np
 
 # OHLCV(open, high, low, close, volume)로 당일 시가, 고가, 저가, 종가, 거래량에 대한 데이터
-df = pyupbit.get_ohlcv("KRW-XRP","minute60",72)
+df = pyupbit.get_ohlcv("KRW-ETH","minute60",200)
 
-# 이동평균선 5분 기준 추가(window=고려일수)
-df['ma5'] = df['close'].rolling(window=5).mean()
+# 이동평균선 5시간 기준 추가(window=고려일수)
+df['ma5a'] = df['close'].rolling(window=5).mean()
 
-# 이평선 5분 전봉
-df['ma5_1'] = df['close'].rolling(window=5).mean().shift(1)
+# # 이평선 5시간 전봉
+# df['ma5b'] = df['close'].rolling(window=5).mean().shift(1)
 
-# 이평선 5분 2전봉
-df['ma5_2'] = df['close'].rolling(window=5).mean().shift(2)
+# # 이평선 5시간 2전봉
+# df['ma5c'] = df['close'].rolling(window=5).mean().shift(2)
 
-# 이동평균선 10분 기준 추가(window=고려일수)
-df['ma10'] = df['close'].rolling(window=10).mean()
+# # 이동평균선 10시간 기준 추가(window=고려일수)
+# df['ma10'] = df['close'].rolling(window=10).mean()
 
-# 이평선 10분 전봉
-df['ma10_1'] = df['close'].rolling(window=10).mean().shift(1)
+# # 20시간 이평선
+df['ma20'] = df['close'].rolling(window=20).mean()
 
-# 이평선 10분 2전봉
-df['ma10_2'] = df['close'].rolling(window=10).mean().shift(2)
+# 볼린저밴드 상한선 20시간
+df['ubb'] = df['ma20'] + 2 * df['close'].rolling(window=5).std()
+
+# 볼린저밴드 하한선 20시간
+df['dbb'] = df['ma20'] - 2 * df['close'].rolling(window=5).std()
+
+# 이평선 마지막행 
+ma20 = df['close'].rolling(window=20).mean().iloc[-1]
+
+# 실제 적용할 차트 마지막행(iloc 적용)
+dbb = ma20 - 2 * df['close'].rolling(window=20).std().iloc[-1]
+
+print(ma20)
+print(dbb)
+
 
 # df['ror'] = np.where((df['ma5'] > df['ma10']) & (df['ma5'] > df['bull']), # 이평선 이상일 경우 값 추출 추가 MA버전 삽입분
 #                       df['close'] / df['close'].shift(1) - fee,
@@ -72,5 +85,5 @@ df['ma10_2'] = df['close'].rolling(window=10).mean().shift(2)
 # print("HPR: ", df['hpr'][-2])
 
 #엑셀로 출력
-df.to_excel("minute_ma.xlsx")
+df.to_excel("hour_ma_bolinger.xlsx")
 print("OK")
