@@ -17,24 +17,16 @@ tickers = pyupbit.get_tickers()
 
 ub_ma = []
 
-# playtime = 0
-# while playtime < 10:
-#   playtime = playtime + 1
-#   try:
-#     for ticker in tickers:
-#       lisst = get_ub_ma(ticker).iloc[-1]
-#       print(ticker,lisst)
-#       # ub_ma.append((lisst, ticker))
-#   except:
-#     pass
+playtime = 0
+while playtime < 10:
+  playtime = playtime + 1
+  try:
+    for ticker in tickers:
+      lisst = get_ub_ma(ticker).iloc[-1]
+      ub_ma.append((ticker, lisst))
+  except:
+    pass
 
-# sorted_ub_ma = sorted(ub_ma, reverse=False)
-# sorted_ub_ma = sorted(ub_ma, key=lambda x:x[1])
-# print(sorted_ub_ma[-9:])
-
-
-lisst = get_ub_ma("KRW-LTC").iloc[-1]
-# ub_ma.append((lisst, "KRW-LTC"))
-print(lisst)
-# sorted_ub_ma = sorted(ub_ma, key=lambda x:x[1])
-# print(sorted_ub_ma[-9:])
+# print(ub_ma)
+sorted_ub_ma = sorted(ub_ma, key=lambda x:x[1])
+print(sorted_ub_ma)

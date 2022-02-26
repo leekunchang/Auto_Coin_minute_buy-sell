@@ -16,14 +16,6 @@ tickers = pyupbit.get_tickers()
 # print(tickers)
 ub_ma = []
 
-# try:
-#   for ticker in tickers:
-#     lisst = get_ub_ma(ticker).iloc[-1]
-#     # ub_ma.append((ticker, lisst))
-#     print(ticker,lisst)
-#     continue
-# except:
-#     pass
 
 for ticker in tickers:
     lisst = get_ub_ma(ticker).iloc[-1]
@@ -34,6 +26,14 @@ for ticker in tickers:
         pass
     continue
 
+# try:
+#   for ticker in tickers:
+#     lisst = get_ub_ma(ticker).iloc[-1]
+#     # ub_ma.append((ticker, lisst))
+#     print(ticker,lisst)
+#     continue
+# except:
+#     pass
 
 
 # sorted_ub_ma = sorted(ub_ma, key=lambda x:x[1])
