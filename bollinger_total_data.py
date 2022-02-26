@@ -64,6 +64,9 @@ while playtime < 30:
 # print(ub_ma)
 sorted_ub_ma_a = sorted(ub_ma_a, key=lambda x:x[1])
 print(sorted_ub_ma_a)
+print("--------------")
+print("--------------")
+
 
 print("볼린저랑 ma20 중간값이상")
 ub_ma_b = []
@@ -80,6 +83,9 @@ while playtime < 30:
 # print(ub_ma)
 sorted_ub_ma_b = sorted(ub_ma_b, key=lambda x:x[1])
 print(sorted_ub_ma_b)
+print("--------------")
+print("--------------")
+
 
 print("볼린저 폭으로 오름차순")
 ub_ma_c = []
