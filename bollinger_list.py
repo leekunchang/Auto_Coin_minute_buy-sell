@@ -18,7 +18,7 @@ tickers = pyupbit.get_tickers()
 ub_ma = []
 
 playtime = 0
-while playtime < 10:
+while playtime < 30:
   playtime = playtime + 1
   try:
     for ticker in tickers:
