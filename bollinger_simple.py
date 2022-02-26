@@ -8,11 +8,22 @@ def get_ub_ma(ticker):
     df['ma20'] = df['close'].rolling(window=20).mean()
     df['ubb'] = df['ma20'] + 2 * df['close'].rolling(window=20).std()
     df['dbb'] = df['ma20'] - 2 * df['close'].rolling(window=20).std()
-    df['ub/ma'] = np.where((df['high'] > df['ubb']),
-                      df['ubb'] / df['ma20'],
-                      10)
+    df['ub/ma'] = df['ubb'] / df['ma20']
     return df['ub/ma']
 
+tickers = pyupbit.get_tickers()
 
-lisst = get_ub_ma("KRW-LTC").iloc[-1]
-print(lisst)
+ub_ma = []
+
+playtime = 0
+while playtime < 30:
+  playtime = playtime + 1
+  try:
+    for ticker in tickers:
+      lisst = get_ub_ma(ticker).iloc[-1]
+      ub_ma.append((ticker, lisst))
+  except:
+    pass
+
+sorted_ub_ma = sorted(ub_ma, key=lambda x:x[1])
+print(sorted_ub_ma)
