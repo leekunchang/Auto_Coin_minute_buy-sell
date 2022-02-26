@@ -1,89 +1,19 @@
+from cmath import e
+from ctypes.wintypes import tagRECT
 import pyupbit
 import numpy as np
 
-# OHLCV(open, high, low, close, volume)로 당일 시가, 고가, 저가, 종가, 거래량에 대한 데이터
-df = pyupbit.get_ohlcv("KRW-ETH","minute60",200)
-
-# 이동평균선 5시간 기준 추가(window=고려일수)
-df['ma5a'] = df['close'].rolling(window=5).mean()
-
-# # 이평선 5시간 전봉
-# df['ma5b'] = df['close'].rolling(window=5).mean().shift(1)
-
-# # 이평선 5시간 2전봉
-# df['ma5c'] = df['close'].rolling(window=5).mean().shift(2)
-
-# # 이동평균선 10시간 기준 추가(window=고려일수)
-# df['ma10'] = df['close'].rolling(window=10).mean()
-
-# # 20시간 이평선
+df = pyupbit.get_ohlcv("KRW-ETH","minute60",24)
 df['ma20'] = df['close'].rolling(window=20).mean()
+df['ubb'] = df['ma20'] + 2 * df['close'].rolling(window=20).std()
+df['dbb'] = df['ma20'] - 2 * df['close'].rolling(window=20).std()
+df['ubc'] = (df['ubb'] + df['ma20']) / 2
+df['close_a'] = df['close'].shift(1)
+df['close_b'] = df['close'].shift(2)
+df['ma20a'] = df['ma20'].shift(1)
+df['ma20b'] = df['ma20'].shift(2)
+df['ub/ma'] = np.where((df['high'] > df['ubc']) & (df['ma20a'] > df['close_a']) & (df['ma20b'] > df['close_b']) ,
+                    df['ubb'] / df['ma20'],
+                    10)
 
-# 볼린저밴드 상한선 20시간
-df['ubb'] = df['ma20'] + 2 * df['close'].rolling(window=5).std()
-
-# 볼린저밴드 하한선 20시간
-df['dbb'] = df['ma20'] - 2 * df['close'].rolling(window=5).std()
-
-# 이평선 마지막행 
-ma20 = df['close'].rolling(window=20).mean().iloc[-1]
-
-# 실제 적용할 차트 마지막행(iloc 적용)
-dbb = ma20 - 2 * df['close'].rolling(window=20).std().iloc[-1]
-
-print(ma20)
-print(dbb)
-
-
-# df['ror'] = np.where((df['ma5'] > df['ma10']) & (df['ma5'] > df['bull']), # 이평선 이상일 경우 값 추출 추가 MA버전 삽입분
-#                       df['close'] / df['close'].shift(1) - fee,
-#                       1)
-
-# # ma5 > ma10 and ma5 > ma5_1
-# df['ma5 > ma10 and ma5 > ma5_1'] = np.where(df['ma5'] > df['ma10'] & df['ma5'] > df['ma5_1'], 1, 0)
-
-# # ma5 > ma10 and ma5 > ma5_1 > ma5_2 3시간전부터 지속적인 상승추세
-# df['ma5>ma10 and ma5 > ma5_1 > ma5_2'] = np.where(df['ma5'] > df['ma10'] & df['ma5'] > df['ma5_1'] > df['ma5_2'], 1, 0)
-
-# # 이동평균선 5분 기준 추가(window=고려일수)
-# df['ma20'] = df['close'].rolling(window=20).mean()
-
-# # 이동평균선 5분 기준 추가(window=고려일수)
-# df['ma60'] = df['close'].rolling(window=60).mean()
-
-# # 이동평균선 5분 기준 추가(window=고려일수)
-# df['ma120'] = df['close'].rolling(window=120).mean()
-
-# # 변동폭 * k 계산, (고가 - 저가) * k값 - 삭제처리
-# df['range'] = (df['high'] - df['low']) * 0.5
-
-# # target(매수가), range 컬럼을 한칸씩 밑으로 내림(.shift(1))
-# df['target'] = df['open'] + df['range'].shift(1)
-
-# # bull = 전일종가 > 이평선보다 높을경우 TRUE
-# df['bull'] = df['open'] > df['ma5']
-
-# # bull = 이평선20 * 가중치 - 횡보장 거래 정지선
-# df['bull'] = df['ma20'] * 1.05
-
-# # ror(수익률), np.where(조건문, 참일때 값, 거짓일때 값)
-# fee = 0.0005
-# df['ror'] = np.where((df['ma5'] > df['ma10']) & (df['ma5'] > df['bull']), # 이평선 이상일 경우 값 추출 추가 MA버전 삽입분
-#                       df['close'] / df['close'].shift(1) - fee,
-#                       1)
-
-# # 누적 곱 계산(cumprod) => 누적 수익률
-# df['hpr'] = df['ror'].cumprod()
-
-# # Draw Down 계산 (누적 최대 값과 현재 hpr 차이 / 누적 최대값 * 100)
-# df['dd'] = (df['hpr'].cummax() - df['hpr']) / df['hpr'].cummax() * 100
-
-# #MDD 계산
-# print("MDD: ", df['dd'].max())
-
-# #HPR 계산 (기간수익율)
-# print("HPR: ", df['hpr'][-2])
-
-#엑셀로 출력
-df.to_excel("hour_ma_bolinger.xlsx")
-print("OK")
+df.to_excel("eieiei.xlsx")
