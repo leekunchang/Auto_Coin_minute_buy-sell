@@ -47,7 +47,7 @@ def get_ub_ma_c(ticker):
 
     return df['ub/ma']
 
-tickers = pyupbit.get_tickers()
+tickers = pyupbit.get_tickers(fiat="KRW")
 
 print("볼린저랑 ma20 중간값이상 + 전전봉 종가는 ma20미만")
 ub_ma_a = []

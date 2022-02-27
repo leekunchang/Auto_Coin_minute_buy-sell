@@ -13,7 +13,7 @@ def get_ub_ma(ticker):
                       10)
     return df['ub/ma']
 
-tickers = pyupbit.get_tickers()
+tickers = pyupbit.get_tickers(fiat="KRW")
 
 ub_ma = []
 
