@@ -5,7 +5,8 @@ import datetime
 access = "K1izlIYmgptIBMaMhfaZlWh8KlFnUXOxIXmS91pA"
 secret = "x4vnFWp8mViKuunhEZwkAaojIomtTNnzVx6xMIDi"
 
-coin_code = "ETH" # 종목코드
+# 종목코드
+coin_code = "SNT" 
 
 
 def get_ma5a(ticker): # 60분봉 12분 조회, 5분 이평선
