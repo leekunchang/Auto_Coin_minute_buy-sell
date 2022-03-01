@@ -6,7 +6,7 @@ access = "K1izlIYmgptIBMaMhfaZlWh8KlFnUXOxIXmS91pA"
 secret = "x4vnFWp8mViKuunhEZwkAaojIomtTNnzVx6xMIDi"
 
 # 종목코드
-coin_code = "ARDR" 
+coin_code = "NEAR" 
 
 
 def get_ma20(ticker): # 60분봉 12분 조회, 5분 이평선
