@@ -6,7 +6,7 @@ access = "K1izlIYmgptIBMaMhfaZlWh8KlFnUXOxIXmS91pA"
 secret = "x4vnFWp8mViKuunhEZwkAaojIomtTNnzVx6xMIDi"
 
 # 종목코드
-coin_code = "MTL" 
+coin_code = "ARDR" 
 
 
 def get_ma20(ticker): # 60분봉 12분 조회, 5분 이평선
@@ -87,7 +87,7 @@ while True:
                 print("매수")
                 # time.sleep(1800) # 매수 후 30분간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
                 
-        if ma_benefit < current_price:
+        if ma_ubb_c * 1.015 < current_price:
             coin_volume = get_balance(coin_code)
             if coin_volume > 0.00008:
                 upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
@@ -98,9 +98,12 @@ while True:
             coin_volume = get_balance(coin_code)
             if coin_volume > 0.00008:
                 upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
-                print("종료")
-                break
+                print("손절")
                 # time.sleep(1800) # 매수 후 30분간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)        
+
+        if current_price < ma20:
+            print("종료")
+            break                
                 
         time.sleep(1)
     except Exception as e:
