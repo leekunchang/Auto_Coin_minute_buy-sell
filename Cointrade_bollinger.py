@@ -80,28 +80,28 @@ while True:
         ma_exit = get_exit("KRW-"+coin_code)
         current_price = get_current_price("KRW-"+coin_code)
 
-        if ma_ubb_c * 0.999 < current_price < ma_ubb_c * 1.001:
+        if ma_exit * 0.999 < current_price < ma_exit * 1.001:
             krw = get_balance("KRW")
             if krw > 5000:
                 upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
                 print("매수")
                 # time.sleep(1800) # 매수 후 30분간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
                 
-        if ma_ubb_c * 1.015 < current_price:
+        if ma_exit * 1.015 < current_price:
             coin_volume = get_balance(coin_code)
             if coin_volume > 0.00008:
                 upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
                 print("익절")
                 # time.sleep(1800) # 매수 후 30분간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
 
-        if current_price < ma_exit:
+        if current_price < ma20:
             coin_volume = get_balance(coin_code)
             if coin_volume > 0.00008:
                 upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
                 print("손절")
                 # time.sleep(1800) # 매수 후 30분간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)        
 
-        if current_price < ma20:
+        if current_price < ma20 * 0.99:
             print("종료")
             break                
                 
