@@ -83,21 +83,21 @@ while True:
                 print("매수")
                 
                 
-        if ma_exit * 1.015 < current_price:
+        if ma_exit * 1.01 < current_price:
             coin_volume = get_balance(coin_code)
             if coin_volume > 0.00008:
                 upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
                 print("익절")
                 
 
-        if current_price < ma20:
+        if current_price < ma20 * 0.99:
             coin_volume = get_balance(coin_code)
             if coin_volume > 0.00008:
                 upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
                 print("손절")
                 
 
-        if current_price < ma20 * 0.99:
+        if current_price < ma20 * 0.97:
             print("종료")
             break                
                 

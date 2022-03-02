@@ -6,7 +6,7 @@ access = "K1izlIYmgptIBMaMhfaZlWh8KlFnUXOxIXmS91pA"
 secret = "x4vnFWp8mViKuunhEZwkAaojIomtTNnzVx6xMIDi"
 
 # 종목코드
-coin_code = "RFR" 
+coin_code = "WAVES" 
 
 
 def get_ma20(ticker): 
@@ -84,21 +84,21 @@ while True:
                 print("매수")
                 
                 
-        if ma_ubb_c * 1.015 < current_price:
+        if ma_ubb_c * 1.01 < current_price:
             coin_volume = get_balance(coin_code)
             if coin_volume > 0.00008:
                 upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
                 print("익절")
                 
 
-        if current_price < ma_exit:
+        if current_price < ma20:
             coin_volume = get_balance(coin_code)
             if coin_volume > 0.00008:
                 upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
                 print("손절")
                      
 
-        if current_price < ma20:
+        if current_price < ma20 * 0.98:
             print("종료")
             break                
                 
