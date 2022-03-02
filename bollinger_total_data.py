@@ -1,5 +1,4 @@
 from cmath import e
-from ctypes.wintypes import tagRECT
 import pyupbit
 import numpy as np
 

@@ -1,5 +1,4 @@
 import time
-from pygame import BLEND_RGB_SUB
 import pyupbit
 import datetime
 
