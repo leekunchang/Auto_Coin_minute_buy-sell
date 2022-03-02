@@ -1,4 +1,5 @@
 import time
+from pygame import BLEND_RGB_SUB
 import pyupbit
 import datetime
 
@@ -6,7 +7,7 @@ access = "K1izlIYmgptIBMaMhfaZlWh8KlFnUXOxIXmS91pA"
 secret = "x4vnFWp8mViKuunhEZwkAaojIomtTNnzVx6xMIDi"
 
 # 종목코드
-coin_code = "OMG" 
+coin_code = "RFR" 
 
 
 def get_ma20(ticker): 
@@ -16,8 +17,9 @@ def get_ma20(ticker):
 
 def get_ubb(ticker): 
     df = pyupbit.get_ohlcv(ticker, interval="minute60", count=23)
-    df['ma20'] = df['close'].rolling(20).mean() 
-    ubb = df['ma20'] + 2 * df['close'].rolling(window=20).std().iloc[-1]
+    df['ma20'] = df['close'].rolling(20).mean()
+    df['ubb'] = df['ma20'] + 2 * df['close'].rolling(window=20).std()
+    ubb = df['ubb'].iloc[-1]
     return ubb
 
 def get_ubb_c(ticker): 

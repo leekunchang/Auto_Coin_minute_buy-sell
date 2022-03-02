@@ -16,8 +16,9 @@ def get_ma20(ticker):
 
 def get_ubb(ticker):
     df = pyupbit.get_ohlcv(ticker, interval="minute60", count=23)
-    df['ma20'] = df['close'].rolling(20).mean() 
-    ubb = df['ma20'] + 2 * df['close'].rolling(window=20).std().iloc[-1]
+    df['ma20'] = df['close'].rolling(20).mean()
+    df['ubb'] = df['ma20'] + 2 * df['close'].rolling(window=20).std()
+    ubb = df['ubb'].iloc[-1]
     return ubb
 
 def get_ubb_c(ticker): 
