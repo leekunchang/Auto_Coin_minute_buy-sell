@@ -6,7 +6,7 @@ access = "K1izlIYmgptIBMaMhfaZlWh8KlFnUXOxIXmS91pA"
 secret = "x4vnFWp8mViKuunhEZwkAaojIomtTNnzVx6xMIDi"
 
 # 종목코드
-coin_code = "XLM" 
+coin_code = "LTC" 
 
 
 def get_ma20(ticker): 
