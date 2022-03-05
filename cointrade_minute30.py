@@ -66,14 +66,14 @@ while True:
                 if krw > 5000:
                     upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
                     print("매수")
-                    time.sleep(1800) # 매수 후 30분간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
+                    time.sleep(1000) # 매수 후 30분간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
 
             if ma5a < ma5b or ma5a < ma10:
                 coin_volume = get_balance(coin_code)
                 if coin_volume > 0.00008:
                     upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
                     print("매도")
-                    time.sleep(1800) # 매수 후 30분간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
+                    time.sleep(1000) # 매수 후 30분간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
                 
             time.sleep(1)
     except Exception as e:
