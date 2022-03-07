@@ -1,10 +1,13 @@
-import datetime
+import time
 
-now = datetime.datetime.now()
+ddd = 0
 
-print(now.second)
-
-while True:
-    now = datetime.datetime.now()
-    if 50 < now.second < 60:
-        print(now.second)
+while ddd < 8:
+    print(ddd)
+    ddd = ddd + 1
+    if ddd > 3:
+        print("기준1")
+        break
+    if ddd > 5:
+        print("기준2")
+    time.sleep(0.1)
