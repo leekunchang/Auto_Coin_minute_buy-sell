@@ -13,6 +13,7 @@ df = pyupbit.get_ohlcv("KRW-MTL","minute60",24)
 # df['ma20a'] = df['ma20'].shift(1)
 # df['ma20b'] = df['ma20'].shift(2)
 df['ma5a'] = df['close'].rolling(window=5).mean()
+df['ma5d'] = df['close'].ewm(10).mean()
 df['ma5b'] = df['close'].rolling(window=5).mean().shift(1)
 df['ma10'] = df['close'].rolling(window=10).mean()
 # df['ub/ma'] = np.where((df['high'] > df['ubc']) & (df['ma20a'] > df['close_a']) & (df['ma20b'] > df['close_b']) ,
