@@ -7,7 +7,7 @@ access = "K1izlIYmgptIBMaMhfaZlWh8KlFnUXOxIXmS91pA"
 secret = "x4vnFWp8mViKuunhEZwkAaojIomtTNnzVx6xMIDi"
 
 # 종목코드
-coin_code = "XRP" 
+coin_code = "WAVES" 
 
 
 def get_ma5a(ticker): # 60분봉 12분 조회, 5분 이평선
@@ -57,7 +57,7 @@ print("autotrade start")
 while True:
     try:
         now = datetime.datetime.now()
-        if 57 < now.minute :
+        if 58 < now.minute :
             ma5a = get_ma5a("KRW-"+coin_code) # ma5 값 차트 불러오는 함수
             ma5b = get_ma5b("KRW-"+coin_code) # 1시간전 ma5 차트 불러오는 함수
             ma5c = get_ma5c("KRW-"+coin_code) # 2시간전 ma5 차트 불러오는 함수
