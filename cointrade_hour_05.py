@@ -83,7 +83,7 @@ while True:
             close1 = get_close1("KRW-"+coin_code) # ma5 값 차트 불러오는 함수
             current_price = get_current_price("KRW-"+coin_code)
 
-            if close1 * 1.005 < current_price :
+            if close1 * 1.004 < current_price :
                 coin_volume = get_balance(coin_code)
                 if coin_volume > 0.00008:
                     upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
