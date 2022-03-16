@@ -7,7 +7,7 @@ access = "K1izlIYmgptIBMaMhfaZlWh8KlFnUXOxIXmS91pA"
 secret = "x4vnFWp8mViKuunhEZwkAaojIomtTNnzVx6xMIDi"
 
 # 종목코드
-coin_code = "SBD" 
+coin_code = "WAVES" 
 
 
 def get_ma5a(ticker): # 60분봉 12분 조회, 5시간 지수이평
@@ -54,41 +54,63 @@ def get_balance(ticker):
 upbit = pyupbit.Upbit(access, secret)
 print("autotrade start")
 
+lisst = []
+
 while True:
     try:
         now = datetime.datetime.now()
-        if 58 < now.minute :
+        if 0 < now.minute :
             ma5a = get_ma5a("KRW-"+coin_code) # ma5 값 차트 불러오는 함수
             ma5b = get_ma5b("KRW-"+coin_code) # 1시간전 ma5 차트 불러오는 함수
             ma5c = get_ma5c("KRW-"+coin_code) # 2시간전 ma5 차트 불러오는 함수
             ma10 = get_ma10("KRW-"+coin_code) # ma10 값 차트 불러오는 함수
-        
-            if ma5a > ma5b and ma5a > ma10:
-                krw = get_balance("KRW")
-                if krw > 5000:
-                    upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
-                    print("매수")
-                    time.sleep(180) # 매수 후 30분간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
+            current_price = get_current_price("KRW-"+coin_code)
 
-            if ma5a < ma5b or ma5a < ma10:
-                coin_volume = get_balance(coin_code)
-                if coin_volume > 0.00008:
-                    upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
-                    print("매도")
-                    time.sleep(180) # 매수 후 30분간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
+            if ma5a > ma5b and ma5a > ma10:
+                lisst.append(current_price)
+                print("매수")
+                print(lisst, coin_code)
+                min_lisst = min(lisst)
+                print(min_lisst)                
+
+                # 원문 주석처리
+                # krw = get_balance("KRW")
+                # if krw > 5000:
+                #     upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
+                #     print("매수")
+                #     time.sleep(180) # 매수 후 30분간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
+
+            if min_lisst * 1.01 < current_price:
+                print("매도")
+                print("매수가 : ", min_lisst, "매도가 : ", current_price)
+                print("리스트 초기화")
+                lisst = []
+                # 원문 주석처리
+                # coin_volume = get_balance(coin_code)
+                # if coin_volume > 0.00008:
+                #     upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
+                #     print("매도")
+                #     time.sleep(180) # 매수 후 30분간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
                 
             time.sleep(1)
 
-        if now.minute < 56 :
+        if now.minute < 60 :
             close1 = get_close1("KRW-"+coin_code) # ma5 값 차트 불러오는 함수
             current_price = get_current_price("KRW-"+coin_code)
 
             if close1 * 1.004 < current_price :
                 coin_volume = get_balance(coin_code)
-                if coin_volume > 0.00008:
-                    upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
-                    print("익절")
+                print(min_lisst, lisst, "진행중")
+
+                # 원문 주석처리
+                # if coin_volume > 0.00008:
+                #     upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
+                #     print("익절")
 
     except Exception as e:
         print(e)
         time.sleep(1)
+
+
+
+# asyncio 비동기

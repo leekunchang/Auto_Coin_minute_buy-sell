@@ -16,6 +16,7 @@ df['ma5a'] = df['close'].rolling(window=5).mean()
 df['ma5d'] = df['close'].ewm(10).mean()
 df['ma5b'] = df['close'].rolling(window=5).mean().shift(1)
 df['ma10'] = df['close'].rolling(window=10).mean()
+df['close1'] = df['close'].iloc[-2]
 # df['ub/ma'] = np.where((df['high'] > df['ubc']) & (df['ma20a'] > df['close_a']) & (df['ma20b'] > df['close_b']) ,
 #                     df['ubb'] / df['ma20'],
 #                     10)
