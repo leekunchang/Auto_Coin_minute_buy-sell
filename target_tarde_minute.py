@@ -65,15 +65,16 @@ while True:
         ma10 = get_ma10("KRW-"+coin_code) # ma10 값 차트 불러오는 함수
         current_price = get_current_price("KRW-"+coin_code)
         close1 = get_close1("KRW-"+coin_code) # ma5 값 차트 불러오는 함수
-
-        if ma5a > ma5b and ma5a > ma10:
-            krw = get_balance("KRW")
-            if krw > 5000:
-                upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
-                lisst.append(current_price)
-                min_lisst = lisst[0]
-                print("매수")
-                print("매수가", min_lisst, "리스트", lisst)
+        now = datetime.datetime.now()
+        if 57 < now.minute :
+            if ma5a > ma5b and ma5a > ma10:
+                krw = get_balance("KRW")
+                if krw > 5000:
+                    upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
+                    lisst.append(current_price)
+                    min_lisst = lisst[0]
+                    print("매수")
+                    print("매수가", min_lisst, "리스트", lisst)
                 # time.sleep(30) # 매수 후 30초간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
 
         if min_lisst * 1.011 < current_price:
@@ -83,7 +84,7 @@ while True:
                 print("익절")
                 print("매수가 : ", min_lisst, "매도가 : ", current_price, "이론상판매가 : ", min_lisst * 1.011)
                 lisst = []
-                time.sleep(3600) # 매수 후 30초간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
+                # time.sleep(3600) # 매수 후 30초간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
                 
             time.sleep(1)
 
@@ -97,7 +98,7 @@ while True:
                 print("손절")
                 print("매수가 : ", min_lisst, "매도가 : ", current_price, "이론상판매가 : ", min_lisst * 1.011)
                 lisst = []
-                time.sleep(3600)
+                # time.sleep(3600)
 
     except Exception as e:
         print(e)
