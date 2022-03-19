@@ -29,6 +29,11 @@ def get_ma10(ticker): # 60분봉 12, 10시간 지수이평
     ma10 = df['close'].ewm(10).mean().iloc[-1] 
     return ma10
 
+def get_close0(ticker): # 60분봉 12, 전종가
+    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=12)
+    close0 = df['close'].iloc[-1] 
+    return close0
+
 def get_close1(ticker): # 60분봉 12, 전종가
     df = pyupbit.get_ohlcv(ticker, interval="minute60", count=12)
     close1 = df['close'].iloc[-2] 
@@ -38,6 +43,11 @@ def get_low1(ticker): # 60분봉 12, 전종가
     df = pyupbit.get_ohlcv(ticker, interval="minute60", count=12)
     low1 = df['low'].iloc[-1] 
     return low1
+
+def get_high1(ticker): # 60분봉 12, 전종가
+    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=12)
+    high1 = df['high'].iloc[-1] 
+    return high1
 
 def get_current_price(ticker):
     """현재가 조회"""
@@ -63,16 +73,18 @@ lisst = []
 
 while True:
     try:
-        ma5a = get_ma5a("KRW-"+coin_code) # ma5 값 차트 불러오는 함수
-        ma5b = get_ma5b("KRW-"+coin_code) # 1시간전 ma5 차트 불러오는 함수
-        ma5c = get_ma5c("KRW-"+coin_code) # 2시간전 ma5 차트 불러오는 함수
-        ma10 = get_ma10("KRW-"+coin_code) # ma10 값 차트 불러오는 함수
+        ma5a = get_ma5a("KRW-"+coin_code) 
+        ma5b = get_ma5b("KRW-"+coin_code) 
+        ma5c = get_ma5c("KRW-"+coin_code) 
+        ma10 = get_ma10("KRW-"+coin_code) 
         current_price = get_current_price("KRW-"+coin_code)
-        close1 = get_close1("KRW-"+coin_code) # ma5 값 차트 불러오는 함수
-        low1 = get_low1("KRW-"+coin_code) # ma5 값 차트 불러오는 함수        
+        close0 = get_close0("KRW-"+coin_code) 
+        close1 = get_close1("KRW-"+coin_code) 
+        low1 = get_low1("KRW-"+coin_code)
+        high1 = get_high1("KRW-"+coin_code) 
         now = datetime.datetime.now()
         if 57 < now.minute :
-            if ma5a > ma5b and ma5a > ma10 and low1/close1 > 0.996:
+            if ma5a > ma5b and ma5a > ma10 and low1/close1 > 0.996 and high1/close0 < 1.007:
                 krw = get_balance("KRW")
                 if krw > 5000:
                     upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
