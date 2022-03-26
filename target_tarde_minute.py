@@ -92,7 +92,7 @@ while True:
         ubb = get_ubb("KRW-"+coin_code) 
         now = datetime.datetime.now()
         if 57 < now.minute :
-            if ma5a > ma5b and ma5a > ma10 and low1/close1 > 0.996 and high1/close0 < 1.007 and current_price < ubb * 0.9999:
+            if ma5a > ma5b and ma5a > ma10 and low1/close1 > 0.996 and high1/close0 < 1.007 and high1 < ubb * 0.9999:
                 krw = get_balance("KRW")
                 if krw > 5000:
                     upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
