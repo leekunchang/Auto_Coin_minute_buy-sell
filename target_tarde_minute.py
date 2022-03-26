@@ -49,6 +49,13 @@ def get_high1(ticker): # 60분봉 12, 전종가
     high1 = df['high'].iloc[-1] 
     return high1
 
+def get_ubb(ticker): 
+    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=23)
+    df['ma20'] = df['close'].rolling(20).mean()
+    df['ubb'] = df['ma20'] + 2 * df['close'].rolling(window=20).std()
+    ubb = df['ubb'].iloc[-1]
+    return ubb    
+
 def get_current_price(ticker):
     """현재가 조회"""
     return pyupbit.get_orderbook(ticker=ticker)["orderbook_units"][0]["ask_price"]
@@ -82,9 +89,10 @@ while True:
         close1 = get_close1("KRW-"+coin_code) 
         low1 = get_low1("KRW-"+coin_code)
         high1 = get_high1("KRW-"+coin_code) 
+        ubb = get_ubb("KRW-"+coin_code) 
         now = datetime.datetime.now()
         if 57 < now.minute :
-            if ma5a > ma5b and ma5a > ma10 and low1/close1 > 0.996 and high1/close0 < 1.007:
+            if ma5a > ma5b and ma5a > ma10 and low1/close1 > 0.996 and high1/close0 < 1.007 and current_price < ubb * 0.9999:
                 krw = get_balance("KRW")
                 if krw > 5000:
                     upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
