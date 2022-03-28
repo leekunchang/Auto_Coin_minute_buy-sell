@@ -75,7 +75,16 @@ def get_balance(ticker):
 upbit = pyupbit.Upbit(access, secret)
 print("autotrade start")
 
+now = datetime.datetime.now()
+
 lisst = []
+while True:
+    try:    
+        if now.second < 2 :
+            print(lisst[0])
+    except Exception as e:
+        print(e)
+        time.sleep(1)
 
 
 while True:
