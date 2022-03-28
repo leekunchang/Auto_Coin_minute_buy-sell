@@ -77,8 +77,10 @@ print("autotrade start")
 
 lisst = []
 
+
+
 while True:
-    try:
+    try:        
         ma5a = get_ma5a("KRW-"+coin_code) 
         ma5b = get_ma5b("KRW-"+coin_code) 
         ma5c = get_ma5c("KRW-"+coin_code) 
@@ -90,25 +92,24 @@ while True:
         high1 = get_high1("KRW-"+coin_code) 
         ubb = get_ubb("KRW-"+coin_code) 
         now = datetime.datetime.now()
+        if now.second < 5 :
+            print("매수가", lisst[0])
 
-        if now.minute < 2 :
-            print("모니터링. 매수가 : ", lisst[0])
-
-        if 57 < now.minute :
-            if ma5a > ma5b and ma5a > ma10 and low1/close1 > 0.996 and high1/close0 < 1.007 and high1 < ubb * 0.9999:
+        if 0 < now.minute :
+            if ma5a > ma10 :
                 krw = get_balance("KRW")
-                if krw > 5000:
-                    upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
+                if krw > 0000:
+                    # upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
                     lisst.append(current_price)
                     min_lisst = lisst[0]
                     print("매수")
                     print("매수가", min_lisst, "리스트", lisst)
                 # time.sleep(30) # 매수 후 30초간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
 
-        if min_lisst * 1.011 < current_price:
+        if min_lisst * 1.001 < current_price:
             coin_volume = get_balance(coin_code)
-            if coin_volume > 0.00008:
-                upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
+            if coin_volume > 0.00000:
+                # upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
                 print("익절")
                 print("매수가 : ", min_lisst, "매도가 : ", current_price, "이론상판매가 : ", min_lisst * 1.011)
                 lisst = []
@@ -119,10 +120,10 @@ while True:
     
             
 
-        if min_lisst * 0.97 > current_price :
+        if min_lisst * 0.999 > current_price :
             coin_volume = get_balance(coin_code)
-            if coin_volume > 0.00008:
-                upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
+            if coin_volume > 0.00000:
+                # upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
                 print("손절")
                 print("매수가 : ", min_lisst, "매도가 : ", current_price, "이론상판매가 : ", min_lisst * 1.011)
                 lisst = []
