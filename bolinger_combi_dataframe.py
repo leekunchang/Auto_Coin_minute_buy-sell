@@ -114,8 +114,8 @@ ubb = get_ubb("KRW-"+coin_code)
 current_price = get_current_price("KRW-"+coin_code)
 now = datetime.datetime.now()
 
-low_close = low1 / close1 # 이거쓰며됨 
-high_close = high1 / close0 # 이거쓰면됨
+low_close = low1 - close1 # 이거쓰며됨 
+high_close = high1 - close0 # 이거쓰면됨
 dev_up = get_dev_up("KRW-"+coin_code)
 dev_down = get_dev_down("KRW-"+coin_code)
 dev_div_up = dev_up / ma5
