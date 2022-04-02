@@ -124,6 +124,7 @@ dodge_up = (dev_up - ma5) * 0.3 #상수값 입력예정 위쪽 꼬리 기준값 
 dodge_down = dev_div_down * 0.3 #상수값 입력예정 아래쪽 꼬리 기준값
 target_up = dev_div_up * current_price
 target_down = dev_div_down * current_price
+sell_price = dev_div_down * 0.97
 
 # low1/close1 high1/close0 high1 < ubb
 
@@ -136,7 +137,7 @@ print(high1 - close0, "고점-종가")
 print(dodge_down, "아래쪽 꼬리 기준")
 print(target_up, "익절희망 값")
 print(target_down, "손절희망 값")
-
+print(sell_price, "손절비율")
 
 if high1 - close0 < dodge_up :
     print("위쪽 꼬리 짧음. 매수")

@@ -118,7 +118,7 @@ while True:
         dev_div_down = dev_down / ma5 # 표준편차의 넓이값 하단
         dodge_up = (dev_up - ma5) * 0.3 # 위쪽 꼬리 편차의 30% 길이를 곱한 값
         dodge_down = (dev_down - ma5) * 0.3 # 아래쪽 꼬리 편차의 30% 길이를 곱한 값
-
+        sell_price = dev_div_down * 0.97
 
         if now.minute < 2 :
             print("모니터링. 매수가 : ", lisst[0])
@@ -148,7 +148,7 @@ while True:
     
             
 
-        if min_lisst * dev_div_down > current_price :
+        if min_lisst * sell_price > current_price :
             coin_volume = get_balance(coin_code)
             if coin_volume > 0.00008:
                 upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
