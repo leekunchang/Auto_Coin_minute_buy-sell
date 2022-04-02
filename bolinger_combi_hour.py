@@ -9,43 +9,48 @@ secret = "x4vnFWp8mViKuunhEZwkAaojIomtTNnzVx6xMIDi"
 # 종목코드
 coin_code = "SAND" 
 
-def get_ma5a(ticker): # 60분봉 12분 조회, 5시간 지수이평
-    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=12)
+def get_ma5(ticker): # 60분봉 23 조회, 5시간 단순이평
+    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=23)
+    ma5 = df['close'].rolling(5).mean().iloc[-1]
+    return ma5
+
+def get_ma5a(ticker): # 60분봉 23 조회, 5시간 지수이평
+    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=23)
     ma5a = df['close'].ewm(5).mean().iloc[-1] 
     return ma5a
 
-def get_ma5b(ticker): # 60분봉 12분 조회, 5시간 지수이평 전봉
-    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=12)
+def get_ma5b(ticker): # 60분봉 23 조회, 5시간 지수이평 전봉
+    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=23)
     ma5b = df['close'].ewm(5).mean().iloc[-2] 
     return ma5b
 
-def get_ma5c(ticker): # 60분봉 12분 조회, 5시간 지수이평 전전봉
-    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=12)
-    ma5c = df['close'].ewm(5).mean().iloc[-3] 
-    return ma5c
+def get_ma10a(ticker): # 60분봉 12, 10시간 지수이평
+    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=23)
+    ma10a = df['close'].ewm(10).mean().iloc[-1] 
+    return ma10a
 
-def get_ma10(ticker): # 60분봉 12, 10시간 지수이평
-    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=12)
-    ma10 = df['close'].ewm(10).mean().iloc[-1] 
-    return ma10
+def get_ma10b(ticker): # 60분봉 12, 10시간 지수이평
+    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=23)
+    ma10b = df['close'].ewm(10).mean().iloc[-2] 
+    return ma10b    
 
-def get_close0(ticker): # 60분봉 12, 전종가
-    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=12)
+def get_close0(ticker): # 60분봉 23, 전종가
+    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=23)
     close0 = df['close'].iloc[-1] 
     return close0
 
-def get_close1(ticker): # 60분봉 12, 전종가
-    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=12)
+def get_close1(ticker): # 60분봉 23, 전전종가
+    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=23)
     close1 = df['close'].iloc[-2] 
     return close1
 
-def get_low1(ticker): # 60분봉 12, 전종가
-    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=12)
-    low1 = df['low'].iloc[-1] 
-    return low1
+def get_low0(ticker): # 60분봉 12, 현저가
+    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=23)
+    low0 = df['low'].iloc[-1] 
+    return low0
 
-def get_high0(ticker): # 60분봉 12, 전종가
-    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=12)
+def get_high0(ticker): # 60분봉 12, 현고가
+    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=23)
     high0 = df['high'].iloc[-1] 
     return high0
 
@@ -55,6 +60,20 @@ def get_ubb(ticker):
     df['ubb'] = df['ma20'] + 2 * df['close'].rolling(window=20).std()
     ubb = df['ubb'].iloc[-1]
     return ubb    
+
+def get_dev_up(ticker):
+    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=23)
+    df['ma5'] = df['close'].rolling(5).mean()
+    df['dev_up'] = df['ma5'] + 2 * df['close'].rolling(window=5).std()
+    dev_up = df['dev_up'].iloc[-1] * 0.9995
+    return dev_up
+
+def get_dev_down(ticker):
+    df = pyupbit.get_ohlcv(ticker, interval="minute60", count=23)
+    df['ma5'] = df['close'].rolling(5).mean()
+    df['dev_down'] = df['ma5'] - 2 * df['close'].rolling(window=5).std()
+    dev_down = df['dev_down'].iloc[-1] * 0.9995
+    return dev_down
 
 def get_current_price(ticker):
     """현재가 조회"""
@@ -79,23 +98,33 @@ lisst = []
 
 while True:
     try:
+        now = datetime.datetime.now()
+        current_price = get_current_price("KRW-"+coin_code)
+        ma5 = get_ma5("KRW-"+coin_code)
         ma5a = get_ma5a("KRW-"+coin_code) 
         ma5b = get_ma5b("KRW-"+coin_code) 
-        ma5c = get_ma5c("KRW-"+coin_code) 
-        ma10 = get_ma10("KRW-"+coin_code) 
-        current_price = get_current_price("KRW-"+coin_code)
+        ma10a = get_ma10a("KRW-"+coin_code) 
+        ma10b = get_ma10b("KRW-"+coin_code)
         close0 = get_close0("KRW-"+coin_code) 
         close1 = get_close1("KRW-"+coin_code) 
-        low1 = get_low1("KRW-"+coin_code)
+        low0 = get_low0("KRW-"+coin_code)
         high0 = get_high0("KRW-"+coin_code) 
         ubb = get_ubb("KRW-"+coin_code) 
-        now = datetime.datetime.now()
+        div_high = high0 / close0
+        div_low = low0 / close1        
+        dev_up = get_dev_up("KRW-"+coin_code)
+        dev_down = get_dev_down("KRW-"+coin_code)
+        dev_div_up = dev_up / ma5
+        dev_div_down = dev_down / ma5
+        dodge_up = dev_div_up * 0.3 + 1 #상수값 입력예정 위쪽 꼬리 기준값
+        dodge_down = dev_div_down * 0.3 + 1 #상수값 입력예정 아래쪽 꼬리 기준값
+
 
         if now.minute < 2 :
             print("모니터링. 매수가 : ", lisst[0])
 
         if 57 < now.minute :
-            if ma5a > ma5b and ma5a > ma10 and low1/close1 > 0.996 and high0/close0 < 1.007 and high0 < ubb * 0.9999:
+            if ma5a > ma5b and ma10a > ma10b and ma5a > ma10a and div_high > dodge_up and high0/close0 < 1.007 and high0 < ubb * 0.9999:
                 krw = get_balance("KRW")
                 if krw > 5000:
                     upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)

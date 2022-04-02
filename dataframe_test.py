@@ -19,4 +19,4 @@ df['open1'] = df['open'].iloc[-1]
 
 
 
-df.to_excel("ewm.xlsx")
+df.to_excel("111111.xlsx")
