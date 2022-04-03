@@ -118,25 +118,3 @@ print("dev_div_down", dev_div_down)
 print("dodge_up 위꼬리", dodge_up)
 print("dodge_down 아래꼬리",dodge_down)
 print("sell_price 손절", sell_price)
-
-
-
-        # ma5 = get_ma5("KRW-"+coin_code) # 5시간 편차의 기준값
-        # ma5a = get_ma5a("KRW-"+coin_code) # 5시간 지수이평
-        # ma5b = get_ma5b("KRW-"+coin_code) # 5시간 지수이평 전봉
-        # ma10a = get_ma10a("KRW-"+coin_code) # 10시간 지수이평
-        # ma10b = get_ma10b("KRW-"+coin_code) # 10시간 지수이평 전봉
-        # close0 = get_close0("KRW-"+coin_code) # 현종가
-        # close1 = get_close1("KRW-"+coin_code) # 전종가
-        # low0 = get_low0("KRW-"+coin_code) # 현저가
-        # high0 = get_high0("KRW-"+coin_code) # 현고가
-        # ubb = get_ubb("KRW-"+coin_code) # 볼린저밴드 상단
-        # div_high = high0 - close0 # 상단 - 종가. 위쪽 꼬리 가격
-        # div_low = close1 - low0  # 하단 - 전종가. 아래쪽 꼬리 가격
-        # dev_up = get_dev_up("KRW-"+coin_code) # 5시간 표준편차 상단가격
-        # dev_down = get_dev_down("KRW-"+coin_code) # 5시간 표준편차 하단가격
-        # dev_div_up = dev_up / ma5 # 표준편차의 넓이값 상단
-        # dev_div_down = dev_down / ma5 # 표준편차의 넓이값 하단
-        # dodge_up = (dev_up - ma5) * 0.3 # 위쪽 꼬리 편차의 30% 길이를 곱한 값
-        # dodge_down = (dev_down - ma5) * 0.3 # 아래쪽 꼬리 편차의 30% 길이를 곱한 값
-        # sell_price = 1 - (ma5 / dev_down -1 ) * 3 # 아래로 표준편차의 3배값만큼 하락한 값
