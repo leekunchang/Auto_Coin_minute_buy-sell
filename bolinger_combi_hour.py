@@ -95,6 +95,8 @@ upbit = pyupbit.Upbit(access, secret)
 print("autotrade start")
 
 lisst = []
+buy_list = []
+sell_list = []
 
 while True:
     try:
@@ -132,11 +134,16 @@ while True:
                     upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
                     lisst.append(current_price)
                     min_lisst = lisst[0]
-                    print("매수")
                     print("매수가", min_lisst, "리스트", lisst)
+                    buy_list.append(dev_div_up)
+                    buy_list0 = buy_list[0]
+                    print("매수시점 익절 비율" , buy_list0)
+                    sell_list.append(sell_price)
+                    sell_list0 = sell_list[0]
+                    print("매수시점 손절 희망비율")
                 # time.sleep(30) # 매수 후 30초간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
 
-        if min_lisst * dev_div_up < current_price: # 편차만큼 상승하면 익절
+        if min_lisst * buy_list0 < current_price: # 편차만큼 상승하면 익절
             coin_volume = get_balance(coin_code)
             if coin_volume > 0.00008:
                 upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
@@ -150,7 +157,7 @@ while True:
     
             
 
-        if min_lisst * sell_price > current_price or min_lisst * 0.92 > current_price : # 아래편차 3배 혹은 8%이하로 내려가면 손절
+        if min_lisst * sell_list0 > current_price or min_lisst * 0.92 > current_price : # 아래편차 3배 혹은 8%이하로 내려가면 손절
             coin_volume = get_balance(coin_code)
             if coin_volume > 0.00008:
                 upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
