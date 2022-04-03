@@ -100,6 +100,8 @@ while True:
     try:
         now = datetime.datetime.now() # 시간값
         current_price = get_current_price("KRW-"+coin_code) # 현재가
+        now = datetime.datetime.now() # 시간값
+        current_price = get_current_price("KRW-"+coin_code) # 현재가
         ma5 = get_ma5("KRW-"+coin_code) # 5시간 편차의 기준값
         ma5a = get_ma5a("KRW-"+coin_code) # 5시간 지수이평
         ma5b = get_ma5b("KRW-"+coin_code) # 5시간 지수이평 전봉
@@ -111,21 +113,21 @@ while True:
         high0 = get_high0("KRW-"+coin_code) # 현고가
         ubb = get_ubb("KRW-"+coin_code) # 볼린저밴드 상단
         div_high = high0 - close0 # 상단 - 종가. 위쪽 꼬리 가격
-        div_low = low0 - close1 # 하단 - 전종가. 아래쪽 꼬리 가격
+        div_low = close1 - low0  # 하단 - 전종가. 아래쪽 꼬리 가격
         dev_up = get_dev_up("KRW-"+coin_code) # 5시간 표준편차 상단가격
         dev_down = get_dev_down("KRW-"+coin_code) # 5시간 표준편차 하단가격
         dev_div_up = dev_up / ma5 # 표준편차의 넓이값 상단
         dev_div_down = dev_down / ma5 # 표준편차의 넓이값 하단
         dodge_up = (dev_up - ma5) * 0.3 # 위쪽 꼬리 편차의 30% 길이를 곱한 값
-        dodge_down = (dev_down - ma5) * 0.3 # 아래쪽 꼬리 편차의 30% 길이를 곱한 값
-        sell_price = dev_div_down * 0.985
+        dodge_down = (ma5 - dev_down) * 0.3 # 아래쪽 꼬리 편차의 30% 길이를 곱한 값
+        sell_price = 1 - (ma5 / dev_down -1 ) * 3 # 아래로 표준편차의 3배값만큼 하락한 값
 
         if now.minute < 2 :
             print("모니터링. 매수가 : ", lisst[0])
 
         if 57 < now.minute :
-            if ma5a > ma5b and ma10a > ma10b and ma5a > ma10a and div_high > dodge_up and div_low < dodge_down and high0 < ubb  and dev_div_up > 1.006 :
-                krw = get_balance("KRW")
+            if ma5a > ma5b and ma10a > ma10b and ma5a > ma10a and div_high < dodge_up and div_low < dodge_down and high0 < ubb  and dev_div_up > 1.006 :
+                krw = get_balance("KRW") # 5이평 상승 and 10이평 상승 and 윗꼬리는 편차0.3이내 and 아래꼬리는 편차0.3이내 and 밴드상단 조건 and 밴드폭 조건(익절0.6가능한지)
                 if krw > 5000:
                     upbit.buy_market_order("KRW-"+coin_code, krw*0.9995)
                     lisst.append(current_price)
@@ -134,7 +136,7 @@ while True:
                     print("매수가", min_lisst, "리스트", lisst)
                 # time.sleep(30) # 매수 후 30초간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
 
-        if min_lisst * dev_div_up < current_price:
+        if min_lisst * dev_div_up < current_price: # 편차만큼 상승하면 익절
             coin_volume = get_balance(coin_code)
             if coin_volume > 0.00008:
                 upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
@@ -148,7 +150,7 @@ while True:
     
             
 
-        if min_lisst * sell_price > current_price :
+        if min_lisst * sell_price > current_price or min_lisst * 0.92 > current_price : # 아래편차 3배 혹은 8%이하로 내려가면 손절
             coin_volume = get_balance(coin_code)
             if coin_volume > 0.00008:
                 upbit.sell_market_order("KRW-"+coin_code, coin_volume*0.9995)
