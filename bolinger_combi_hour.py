@@ -150,7 +150,8 @@ while True:
                 print("익절")
                 print("매수가 : ", min_lisst, "매도가 : ", current_price, "이론상판매가 : ", min_lisst * 1.011)
                 lisst = []
-                # time.sleep(3600) # 매수 후 30초간 거래정지 (차트 등락에따른 불필요한 거래로 수수료손실 예방)
+                buy_list = []
+                sell_list = []
                 
             time.sleep(1)
 
@@ -164,7 +165,8 @@ while True:
                 print("손절")
                 print("매수가 : ", min_lisst, "매도가 : ", current_price, "이론상판매가 : ", min_lisst * 1.011)
                 lisst = []
-                # time.sleep(3600)
+                buy_list = []
+                sell_list = []                
 
     except Exception as e:
         print(e)
